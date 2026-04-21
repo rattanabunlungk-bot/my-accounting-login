@@ -1,3 +1,24 @@
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyAbYqwByBWN2BDItbkhlqpssaFZVR6Wrxo",
+  authDomain: "my-accounting-system-63c0a.firebaseapp.com",
+  projectId: "my-accounting-system-63c0a",
+  storageBucket: "my-accounting-system-63c0a.firebasestorage.app",
+  messagingSenderId: "621610645669",
+  appId: "1:621610645669:web:166172efe572e810b1754c",
+  measurementId: "G-TCYMMP3QBD"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 // Mock Database Initial Data
       const users = {
           "owner": { name: "คุณสมชาย (Owner)", role: "owner", dept: "all" },
@@ -57,14 +78,15 @@
          const user = JSON.parse(sessionStorage.getItem('currentUser'));
          if (!user) { window.location.href = 'index.html'; return; }
     
-         document.getElementById('userDisplay').innerText = `${user.name} (${user.role})`;
+         // แสดงชื่อผู้ใช้
+         document.getElementById('welcomeText').innerText = `สวัสดี, ${user.name}`;
     
-         // Manage Log Visibility
-         if (user.role === 'staff') {
-             document.getElementById('navLogs').style.display = 'none';
-         }
-         renderTasks();
-     }
+         // --- ส่วนที่แก้ไข: ดึงข้อมูลแบบ Real-time จาก Firebase ---
+         db.collection('tasks').orderBy('timestamp', 'desc').onSnapshot((snapshot) => {
+            const tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            renderTasks(tasks); // เมื่อมีคนเพิ่มงานใน Cloud ฟังก์ชันนี้จะทำงานเองอัตโนมัติ
+        });
+    }
     
      function renderTasks() {
          const user = JSON.parse(sessionStorage.getItem('currentUser'));
