@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+     <html lang="th">
+     <head>
+         <meta charset="UTF-8">
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+         <title>Dashboard - Accounting Office</title>
+         <link rel="stylesheet" href="style.css">
+     </head>
+     <body class="dashboard-page">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h3>เมนูหลัก</h3>
+                <p id="userDisplay"></p>
+            </div>
+            <ul class="nav-links">
+                <li id="navTasks" class="active" onclick="showSection('tasks')">รายการงาน</li>
+                <li id="navLogs" onclick="showSection('logs')">บันทึกกิจกรรม (Logs)</li>
+                <li onclick="logout()" class="logout-btn">ออกจากระบบ</li>
+            </ul>
+        </nav>
+        <main class="content">
+        <main class="content">
+            <section id="tasksSection">
+                <h1 id="taskTitle">รายการงานทั้งหมด</h1>
+                <div class="task-grid" id="taskGrid"></div>
+            </section>
+   
+            <section id="logsSection" style="display:none;">
+                <h1>บันทึกกิจกรรม (Activity Logs)</h1>
+                <div class="log-container">
+                    <table class="log-table">
+                        <thead>
+                            <tr>
+                                <th>เวลา</th>
+                                <th>ผู้ใช้งาน</th>
+                                <th>การกระทำ</th>
+                                <th>รายละเอียด</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+   
+        <script src="app.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', initDashboard);
+        </script>
+    </body>
+    </html>
